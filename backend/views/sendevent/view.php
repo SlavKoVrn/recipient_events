@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\SendEvent $model */
 
-$this->title = 'Событие '.$model->event_name.' получателя '.$model->recipient_email;
+$this->title = 'Событие '.SendEvent::SEND_EVENT_NAME[$model->event_name].' получателя '.$model->recipient_email;
 $this->params['breadcrumbs'][] = ['label' => 'События', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -31,11 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'event_name',
+            [
+                'attribute'=>'event_name',
+                'value'=> function($model){
+                    return SendEvent::SEND_EVENT_NAME[$model->event_name];
+                }
+            ],
             'recipient_email:email',
             [
                 'attribute'=>'status',
-                'filter'=>SendEvent::SEND_EVENT_STATUS_NAME,
                 'value'=> function($model){
                     return SendEvent::SEND_EVENT_STATUS_NAME[$model->status];
                 }

@@ -39,6 +39,18 @@ class SignupForm extends Model
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username'=>'Логин',
+            'password'=>'Пароль',
+            'email'=>'Почтовый ящик',
+        ];
+    }
+
+    /**
      * Signs user up.
      *
      * @return bool whether the creating new account was successful and email was sent
@@ -56,7 +68,12 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        $have_signed_up = $user->save() && $this->sendEmail($user);
+        if ($have_signed_up){
+            $user->signup();
+            return true;
+        }
+        return false;
     }
 
     /**

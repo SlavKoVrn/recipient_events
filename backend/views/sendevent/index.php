@@ -30,9 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 
             'id',
-            'event_name',
-            'recipient_email:email',
             [
+                'attribute' => 'event_name',
+                'filter'=>SendEvent::SEND_EVENT_NAME,
+                'content'=> function($model){
+                    return SendEvent::SEND_EVENT_NAME[$model->event_name];
+                }
+            ],
+            'recipient_email:email',            [
                 'attribute'=>'status',
                 'filter'=>SendEvent::SEND_EVENT_STATUS_NAME,
                 'content'=> function($model){
@@ -41,16 +46,29 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'created_at',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model'=>$searchModel,
+                    'attribute'=>'created_at',
+                    'language' => 'ru',
+                    'dateFormat' => 'dd.MM.yyyy',
+                ]),
                 'content'=> function($model){
                     return date('d.m.Y H:i',strtotime($model->created_at));
                 }
             ],
             [
                 'attribute'=>'updated_at',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model'=>$searchModel,
+                    'attribute'=>'updated_at',
+                    'language' => 'ru',
+                    'dateFormat' => 'dd.MM.yyyy',
+                ]),
                 'content'=> function($model){
                     return date('d.m.Y H:i',strtotime($model->updated_at));
                 }
             ],
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, SendEvent $model, $key, $index, $column) {

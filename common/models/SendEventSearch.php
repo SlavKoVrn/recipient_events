@@ -56,12 +56,22 @@ class SendEventSearch extends SendEvent
             return $dataProvider;
         }
 
+        if ($this->created_at){
+            $begin_day = date('Y-m-d',strtotime($this->created_at)).' 00:00:00';
+            $end_day = date('Y-m-d',strtotime($this->created_at)).' 23:59:59';
+            $query->andFilterWhere(['between', 'created_at', $begin_day, $end_day]);
+        }
+
+        if ($this->updated_at){
+            $begin_day = date('Y-m-d',strtotime($this->updated_at)).' 00:00:00';
+            $end_day = date('Y-m-d',strtotime($this->updated_at)).' 23:59:59';
+            $query->andFilterWhere(['between', 'updated_at', $begin_day, $end_day]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'event_name', $this->event_name])

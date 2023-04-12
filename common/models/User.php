@@ -29,6 +29,18 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    const EVENT_AFTER_SIGNUP = 'afterSignup';
+    const EVENT_AFTER_VERIFY = 'afterVerify';
+
+    public function signup()
+    {
+        $this->trigger(self::EVENT_AFTER_SIGNUP);
+    }
+
+    public function verify()
+    {
+        $this->trigger(self::EVENT_AFTER_VERIFY);
+    }
 
     /**
      * {@inheritdoc}

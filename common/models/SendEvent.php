@@ -27,6 +27,20 @@ class SendEvent extends \yii\db\ActiveRecord
         self::SEND_EVENT_STATUS_DISABLED => 'Да',
     ];
 
+    const SEND_EVENT_USER_AFTER_LOGIN = 'SEND_EVENT_USER_AFTER_LOGIN';
+    const SEND_EVENT_USER_BEFORE_LOGOUT = 'SEND_EVENT_USER_BEFORE_LOGOUT';
+    const SEND_EVENT_SEND_EMAIL = 'SEND_EVENT_SEND_EMAIL';
+    const SEND_EVENT_SIGNUP_USER = 'SEND_EVENT_SIGNUP_USER';
+    const SEND_EVENT_VERIFY_USER = 'SEND_EVENT_VERIFY_USER';
+
+    const SEND_EVENT_NAME = [
+        self::SEND_EVENT_USER_AFTER_LOGIN => 'Вход',
+        self::SEND_EVENT_USER_BEFORE_LOGOUT => 'Выход',
+        self::SEND_EVENT_SEND_EMAIL => 'Отправка сообщения',
+        self::SEND_EVENT_SIGNUP_USER => 'Регистрация',
+        self::SEND_EVENT_VERIFY_USER => 'Верификация',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -44,6 +58,7 @@ class SendEvent extends \yii\db\ActiveRecord
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'datetime', 'format' => 'php:Y-m-d H:i:s'],
             [['event_name', 'recipient_email'], 'string', 'max' => 255],
+            [['recipient_email'], 'email'],
         ];
     }
 
